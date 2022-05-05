@@ -2,6 +2,9 @@ import os
 from flask import Flask
 from flask import request
 from flask import jsonify
+from requests_html import HTMLSession
+
+session = HTMLSession()
 
 app = Flask(__name__)
 
@@ -16,7 +19,25 @@ def api():
     if request.method == 'POST':
         if not request.data:
             return "<p>No body data...</p>"
-        print(request.json)
+        data = request.json
+        print(data)
+        mlLink = "https://share.streamlit.io/aearsears/example-app-qa-generator/main?text=" + \
+            data["text"].replace(" ", "%20")
+
+        r = session.get('http://www.yourjspage.com')
+        r.html.render()
+
+        return "<p>OK</p>"
+    else:
+        return "<p>API is live.</p>"
+
+
+@app.route('/qa', methods=['POST'])
+def qa():
+    if request.method == 'POST':
+        if not request.data:
+            return "<p>No body data...</p>"
+
         return request.json
     else:
         return "<p>API is live.</p>"

@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 Flask = "*"
 gunicorn = "*"
+requests-html = "*"
 
 [dev-packages]
 autopep8 = "*"

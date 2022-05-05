@@ -16,6 +16,7 @@ def api():
     if request.method == 'POST':
         if not request.data:
             return "<p>No body data...</p>"
+        print(request.json)
         return request.json
     else:
         return "<p>API is live.</p>"

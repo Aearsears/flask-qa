@@ -3,16 +3,7 @@ from flask import Flask
 from flask import request
 from flask import jsonify
 
-from library.pipelines import pipeline
-
 app = Flask(__name__)
-
-pipe = pipeline("multitask-qa-qg")
-
-
-def generate_QA(data):
-    print(data["text"])
-    return jsonify(pipe(data["text"]))
 
 
 @app.route("/")
@@ -25,7 +16,7 @@ def api():
     if request.method == 'POST':
         if not request.data:
             return "<p>No body data...</p>"
-        return generate_QA(request.json)
+        return request.json
     else:
         return "<p>API is live.</p>"
 

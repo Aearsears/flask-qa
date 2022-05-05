@@ -7,6 +7,8 @@ RUN pip3 install -r req.txt
 
 COPY . .
 
+RUN python3 -c "from library.pipelines import pipeline; pipe = pipeline(\"multitask-qa-qg\")"
+
 # configure the container to run in an executed manner
 ENTRYPOINT [ "python" ]
 

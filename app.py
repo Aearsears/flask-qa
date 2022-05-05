@@ -3,7 +3,7 @@ from flask import Flask
 from flask import request
 from flask import jsonify
 
-from lib.pipelines import pipeline
+from library.pipelines import pipeline
 
 app = Flask(__name__)
 

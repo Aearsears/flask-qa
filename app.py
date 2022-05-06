@@ -26,8 +26,8 @@ def api():
         if not request.data:
             return "<p>No body data...</p>"
         data = request.json
-        print(data)
-        new_thread = Thread(target=between_callback, args=data)
+        print(data["text"])
+        new_thread = Thread(target=between_callback, args=(data,))
         new_thread.start()
         new_thread.join()
         return "<p>OK</p>"
@@ -44,14 +44,16 @@ def between_callback(args):
 
 
 async def task(data):
+    print(data)
     mlLink = "https://share.streamlit.io/aearsears/example-app-qa-generator/main?text=" + \
-        data[0].replace(" ", "%20")
+        data["text"].replace(" ", "%20")
     browser = await launch({'headless': True, 'args': ['--no-sandbox']}, handleSIGINT=False,
                            handleSIGTERM=False,
                            handleSIGHUP=False,
                            executablePath=EXEC_PATH)
     page = await browser.newPage()
-    await page.goto(mlLink)
+    await page.goto(mlLink, waitUntil="networkidle2")
+    await page.content()
     await browser.close()
 
 

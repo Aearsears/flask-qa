@@ -56,6 +56,7 @@ async def task(data):
                            handleSIGTERM=False,
                            handleSIGHUP=False,
                            headless=True,
+                           executablePath=EXEC_PATH,
                            args=['--no-sandbox']
                            )
     page = await browser.newPage()

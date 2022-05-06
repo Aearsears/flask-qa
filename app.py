@@ -33,6 +33,10 @@ def api():
         new_thread.join()
         return "<p>OK</p>"
     else:
+        data = {"text": "Luffy is a member of the straw hat pirates."}
+        new_thread = Thread(target=between_callback, args=(data,))
+        new_thread.start()
+        new_thread.join()
         return "<p>API is live.</p>"
 
 
@@ -51,7 +55,7 @@ async def task(data):
     browser = await launch(handleSIGINT=False,
                            handleSIGTERM=False,
                            handleSIGHUP=False,
-                           executablePath=EXEC_PATH, headless=True,
+                           headless=True,
                            args=['--no-sandbox']
                            )
     page = await browser.newPage()

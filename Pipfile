@@ -7,6 +7,7 @@ name = "pypi"
 Flask = "*"
 gunicorn = "*"
 requests-html = "*"
+pyppeteer = "*"
 
 [dev-packages]
 autopep8 = "*"

@@ -10,8 +10,9 @@ from pyppeteer import launch
 app = Flask(__name__)
 
 session = HTMLSession()
-
 asyncio.set_event_loop(asyncio.new_event_loop())
+
+EXEC_PATH = os.environ.get("GOOGLE_CHROME_SHIM", None)
 
 
 @app.route("/")
@@ -45,9 +46,10 @@ def between_callback(args):
 async def task(data):
     mlLink = "https://share.streamlit.io/aearsears/example-app-qa-generator/main?text=" + \
         data[0].replace(" ", "%20")
-    browser = await launch(handleSIGINT=False,
+    browser = await launch({'headless': True, 'args': ['--no-sandbox']}, handleSIGINT=False,
                            handleSIGTERM=False,
-                           handleSIGHUP=False)
+                           handleSIGHUP=False,
+                           executablePath=EXEC_PATH)
     page = await browser.newPage()
     await page.goto(mlLink)
     await browser.close()

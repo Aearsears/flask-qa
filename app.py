@@ -13,7 +13,7 @@ session = HTMLSession()
 asyncio.set_event_loop(asyncio.new_event_loop())
 
 EXEC_PATH = os.environ.get(
-    "GOOGLE_CHROME_SHIM", "/root/.local/share/pyppeteer/local-chromium/588429")
+    "GOOGLE_CHROME_SHIM", None)
 
 
 @app.route("/")

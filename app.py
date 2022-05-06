@@ -12,7 +12,8 @@ app = Flask(__name__)
 session = HTMLSession()
 asyncio.set_event_loop(asyncio.new_event_loop())
 
-EXEC_PATH = os.environ.get("GOOGLE_CHROME_SHIM", None)
+EXEC_PATH = os.environ.get(
+    "GOOGLE_CHROME_SHIM", "/root/.local/share/pyppeteer/local-chromium/588429")
 
 
 @app.route("/")
@@ -47,10 +48,12 @@ async def task(data):
     print(data)
     mlLink = "https://share.streamlit.io/aearsears/example-app-qa-generator/main?text=" + \
         data["text"].replace(" ", "%20")
-    browser = await launch({'headless': True, 'args': ['--no-sandbox']}, handleSIGINT=False,
+    browser = await launch(handleSIGINT=False,
                            handleSIGTERM=False,
                            handleSIGHUP=False,
-                           executablePath=EXEC_PATH)
+                           executablePath=EXEC_PATH, headless=True,
+                           args=['--no-sandbox']
+                           )
     page = await browser.newPage()
     await page.goto(mlLink, waitUntil="networkidle2")
     await page.content()

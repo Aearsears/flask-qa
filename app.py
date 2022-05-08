@@ -4,13 +4,11 @@ import urllib.parse
 from flask import Flask
 from flask import request
 from flask import jsonify
-from requests_html import HTMLSession
 from threading import Thread
 from pyppeteer import launch
 
 app = Flask(__name__)
 
-session = HTMLSession()
 asyncio.set_event_loop(asyncio.new_event_loop())
 
 EXEC_PATH = os.environ.get(
@@ -34,10 +32,6 @@ def api():
         new_thread.join()
         return "<p>OK</p>"
     else:
-        data = {"text": "Luffy is a member of the straw hat pirates."}
-        new_thread = Thread(target=between_callback, args=(data,))
-        new_thread.start()
-        new_thread.join()
         return "<p>API is live.</p>"
 
 
@@ -58,12 +52,17 @@ async def task(data):
                            handleSIGHUP=False,
                            headless=True,
                            executablePath=EXEC_PATH,
+                           autoClose=False,
                            args=['--no-sandbox']
                            )
     page = await browser.newPage()
     await page.goto(mlLink, waitUntil="networkidle0")
+    await page.content()
+    elementHandle = await page.waitForSelector('div#root>div>div>div>iframe')
+    frame = await elementHandle.contentFrame()
+    await page.waitFor(10000)
+    # await frame.waitForSelector('#status-code')
     # wait until the desired box appears
-    await page.waitForSelector("#statuscode")
     await browser.close()
 
 

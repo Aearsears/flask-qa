@@ -52,6 +52,7 @@ async def task(data):
     print(data)
     mlLink = "https://share.streamlit.io/aearsears/example-app-qa-generator/main?text=" + \
         data["text"].replace(" ", "%20")
+    # need to encode whole string to rul
     browser = await launch(handleSIGINT=False,
                            handleSIGTERM=False,
                            handleSIGHUP=False,
@@ -60,8 +61,9 @@ async def task(data):
                            args=['--no-sandbox']
                            )
     page = await browser.newPage()
-    await page.goto(mlLink, waitUntil="networkidle2")
-    await page.content()
+    await page.goto(mlLink, waitUntil="networkidle0")
+    # wait until the desired box appears
+    await page.waitForSelector("#statuscode")
     await browser.close()
 
 

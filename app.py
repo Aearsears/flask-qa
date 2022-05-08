@@ -1,5 +1,6 @@
 import os
 import asyncio
+import urllib.parse
 from flask import Flask
 from flask import request
 from flask import jsonify
@@ -51,8 +52,7 @@ def between_callback(args):
 async def task(data):
     print(data)
     mlLink = "https://share.streamlit.io/aearsears/example-app-qa-generator/main?text=" + \
-        data["text"].replace(" ", "%20")
-    # need to encode whole string to rul
+        urllib.parse.quote(data["text"])
     browser = await launch(handleSIGINT=False,
                            handleSIGTERM=False,
                            handleSIGHUP=False,

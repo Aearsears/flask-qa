@@ -45,7 +45,7 @@ def between_callback(args):
 
 async def task(data):
     print(data)
-    mlLink = "https://share.streamlit.io/aearsears/example-app-qa-generator/main?text=" + \
+    mlLink = "https://share.streamlit.io/aearsears/streamlit-qa-generator/main?text=" + \
         urllib.parse.quote(data["text"])
     browser = await launch(handleSIGINT=False,
                            handleSIGTERM=False,
@@ -60,9 +60,8 @@ async def task(data):
     await page.content()
     elementHandle = await page.waitForSelector('div#root>div>div>div>iframe')
     frame = await elementHandle.contentFrame()
-    await page.waitFor(10000)
-    # await frame.waitForSelector('#status-code')
     # wait until the desired box appears
+    await frame.waitForSelector('h1#status-code')
     await browser.close()
 
 
